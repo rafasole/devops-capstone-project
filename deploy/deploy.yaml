@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: accounts
+  name: accounts
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: accounts
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: accounts
+    spec:
+      containers:
+      - image: us.icr.io/sn-labs-rafasole/accounts:1--replicas:3
+        name: accounts
+        resources: {}
+env:
+  - name: DATABASE_HOST
+    value: postgresql
+  - name: DATABASE_NAME
+    valueFrom:
+      secretKeyRef:
+        name: postgresql
+        key: database-name
+  - name: DATABASE_ PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: postgresql
+        key: database-password
+  - name: DATABASE_ USER
+    valueFrom:
+      secretKeyRef:
+        name: postgresql
+        key: database-user
+status: {}
